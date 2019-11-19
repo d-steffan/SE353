@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+
+public class NewLine extends Token {
+
+	public NewLine(String val) {
+		super(val, Token.type.NewLine);
+	}
+	@Override
+	public void obfuscate(int options, ArrayList<Token> Tokens) {
+		// TODO Auto-generated method stub
+		
+		if ((options & 0b10) == 0b10)
+		{
+			int myPos = Tokens.indexOf(this);
+			if (myPos>0) {
+				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.GroupStart)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Keyword)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.NewLine)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Comment)))
+					this.setValue("");
+				if (Tokens.get(myPos-1).getMytype().equals(Token.type.GroupEnd)) {
+					// Special Case: $var = @() generates an Error -> add separator after array declaration
+					int backPos = myPos-1;
+					// find the beginning of the group to determine if it is an operation (if, while, foreach) or an array definition
+					while (!Tokens.get(backPos).getMytype().equals(Token.type.GroupStart)) {
+						backPos--;
+					}
+					if (Tokens.get(backPos-1).getMytype().equals(Token.type.Operator))
+						this.setValue(";");
+					else
+						this.setValue("");
+				}
+				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.Variable)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Command)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Number)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Operator)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandArgument)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.String)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandParameter)))
+					this.setValue(";");
+			}
+			if (myPos+1<Tokens.size())
+				if (this.getValue()!=";" & ((Tokens.get(myPos+1).getMytype().equals(Token.type.NewLine)) | (Tokens.get(myPos+1).getMytype().equals(Token.type.Comment))))
+					this.setValue("");
+			// Remove NewLine bit is set -> substitute NewLine with Separator ; this.setValue("");
+		}
+	}
+
+}

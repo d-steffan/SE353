@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-12">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="org.pushingpixels.trident_1.2.0.v20100204-1500.jar" sourcepath="org.pushingpixels.trident.source_1.2.0.v20100204-1500.jar"/>
+	<classpathentry kind="lib" path="org.eclipse.e4.xwt_0.9.1.SNAPSHOT.jar" sourcepath="org.eclipse.e4.xwt.source_0.9.1.SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="org.eclipse.e4.xwt.forms_0.9.1.SNAPSHOT.jar" sourcepath="org.eclipse.e4.xwt.forms.source_0.9.1.SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.core.databinding_1.7.500.v20190624-2109.jar" sourcepath="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.core.databinding_1.7.500.v20190624-2109.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.8.0.v20190805-1157.jar" sourcepath="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.8.0.v20190805-1157.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.jface.databinding_1.9.100.v20190805-1255.jar" sourcepath="C:/Users/rsmi064/.p2/pool/plugins/org.eclipse.jface.databinding_1.9.100.v20190805-1255.jar"/>
+	<classpathentry kind="lib" path="H:/Documents/Scripts/SE353/Obscurity/h2-1.4.200.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
