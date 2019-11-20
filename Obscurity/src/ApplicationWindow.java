@@ -20,7 +20,7 @@ import javax.swing.JCheckBox;
  * 0b00000100 : Randomize Variable Names 8 digits<br>
  * 0b00001000 : Randomize Variable Names 1 digit<br>
  * 0b00010000 : Obfuscate Members<br>
- * 0b00100000 : currently not in use<br>
+ * 0b00100000 : Obfuscate Strings<br>
  * 0b01000000 : currently not in use<br>
  * 0b10000000 : currently not in use<br>
  * 
@@ -32,11 +32,10 @@ public class ApplicationWindow implements ActionListener{
 	JFrame frame;
 	JButton btnNewButton,SaveFile,Obscure;
 	JLabel lblNewLabel,lblNewLabel2,lblUsername;
-	String OpenFileName = "C:\\temp\\Get-MultipleDomainEventLogs.ps1",SaveFileName = "C:\\temp\\newScript.ps1";
-	JCheckBox RemoveComments,RemoveNewLine,ObfuscateMembers;
+	String OpenFileName = "C:\\temp\\Get-MultipleDomainEventLogs.ps1",SaveFileName = "C:\\temp\\newScript.ps1",username;
+	JCheckBox RemoveComments,RemoveNewLine,ObfuscateMembers,ObfuscateStrings;
 	JPanel RandomizeVar;
 	JRadioButton RandVar0,RandVar1,RandVar8;
-	String username;
 
 	/**
 	 * Create the application.
@@ -114,6 +113,11 @@ public class ApplicationWindow implements ActionListener{
 		ObfuscateMembers.setSelected(true);
 		frame.getContentPane().add(ObfuscateMembers);
 		
+		ObfuscateStrings = new JCheckBox("Obfuscate Strings");
+		ObfuscateStrings.setBounds(5,125,150,14);
+		ObfuscateStrings.setSelected(true);
+		frame.getContentPane().add(ObfuscateStrings);
+		
 	}
 
 	/**
@@ -156,6 +160,8 @@ public class ApplicationWindow implements ActionListener{
 				options+=0b1000;
 			if (ObfuscateMembers.isSelected())
 				options+=0b10000;
+			if (ObfuscateMembers.isSelected())
+				options+=0b100000;
 
 			
 			

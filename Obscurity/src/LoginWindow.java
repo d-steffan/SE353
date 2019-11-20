@@ -11,9 +11,9 @@ import javax.swing.JCheckBox;
 public class LoginWindow implements ActionListener{
 
 	JFrame frame;
-	JButton btnNewButton,SaveFile,Obscure;
+	JButton btnNewButton;
 	JLabel lblNewLabel,lblNewLabel2;
-	public String OpenFileName = "",Username;
+	public String Username;
 	JCheckBox SafeSQL;
 	private boolean successfulLogin = false;
 	JTextField username;
