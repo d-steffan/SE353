@@ -1,13 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**Utility class to process the script tokens gathered by {@link ReadCSV}.
  * 
