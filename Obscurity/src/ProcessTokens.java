@@ -28,7 +28,7 @@ public class ProcessTokens {
 		for (Token t:Tokens) {
 			t.obfuscate(options, Tokens);
 			if (t.getMytype()==Token.type.Variable)
-				if (!vars.containsKey(t.getValue()) & !t.getValue().equals("$_") & !t.getValue().equalsIgnoreCase("$host") & !t.getValue().contains("$env:") & (((options & 0b100) == 0b100 ) | ((options & 0b1000) == 0b1000 )))
+				if (!vars.containsKey(t.getValue()) & !t.getValue().equals("$_") & !t.getValue().equalsIgnoreCase("$host") & !t.getValue().equalsIgnoreCase("$false") & !t.getValue().equalsIgnoreCase("$true") & !t.getValue().contains("$env:") & (((options & 0b100) == 0b100 ) | ((options & 0b1000) == 0b1000 )))
 					if ((options & 0b100) == 0b100)
 						vars.put(t.getValue(),"$"+HashFactory.hashString(t.getValue(),"MD5").substring(0,8));
 					else
@@ -92,25 +92,25 @@ public class ProcessTokens {
 	 * @return Obfuscated String of val
 	 */
     public static String ObfuscateFormat(String val) {
-		System.out.println("Member: "+val);
+		//System.out.println("Member: "+val);
 		String res = "";
 		String resFront = "";
 		int count = 0;
 		while (val.length()>3)
 		{
 			int cut = (int)(Math.random()*Math.min(4, val.length()));
-			System.out.println(val.substring(val.length()-cut));
+			//System.out.println(val.substring(val.length()-cut));
 			res += "\""+val.substring(val.length()-cut)+"\",";
 			val = val.substring(0,val.length()-cut);
 			count++;
 		}
-		System.out.println("Rest: "+val);
+		//System.out.println("Rest: "+val);
 		res += "\""+val+"\"";
 		while (count>-1) {
 			resFront += "{"+count+"}";
 			count--;
 		}
-		System.out.println("Result: (\""+resFront+"\" -f "+res+")");
+		//System.out.println("Result: (\""+resFront+"\" -f "+res+")");
 		return "(\""+resFront+"\" -f "+res+")";
     }
 	

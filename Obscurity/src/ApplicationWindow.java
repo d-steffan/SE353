@@ -171,7 +171,7 @@ public class ApplicationWindow implements ActionListener{
 			
 				p.waitFor();
 				String temppath = System.getenv("TEMP")+"\\Tokenized.csv";
-				System.out.println(temppath);
+				//System.out.println(temppath);
 				Tokens = ReadCSV.GetTokens(temppath);
 				ProcessTokens.Process(Tokens, options);
 				ProcessTokens.WriteProcessedTokens(SaveFileName);

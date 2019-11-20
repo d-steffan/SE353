@@ -31,6 +31,14 @@ public class ReadCSV {
 			chars = line.toCharArray();
 			for (i=0;i<chars.length;i++)
 			{
+				if (i==0 & chars.length>2)
+					if (chars[0]=='"' & chars[1]=='"' & chars[2]==',')
+					{
+						//System.out.println("i: "+i+" char: "+chars[i]+" String: "+line+" Note:// Empty String ");
+						i+=2;
+						buffer="";
+						EndQuotes();
+					}
 				if (chars[i]=='"')
 				{
 					if (i+1<chars.length)

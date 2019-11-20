@@ -13,21 +13,33 @@ public class NewLine extends Token {
 		{
 			int myPos = Tokens.indexOf(this);
 			if (myPos>0) {
-				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.GroupStart)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Keyword)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.NewLine)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Comment)))
+				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.GroupStart)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Keyword)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.NewLine)))
 					this.setValue("");
 				if (Tokens.get(myPos-1).getMytype().equals(Token.type.GroupEnd)) {
 					// Special Case: $var = @() generates an Error -> add separator after array declaration
-					int backPos = myPos-1;
+					int backPos = myPos-2;
 					// find the beginning of the group to determine if it is an operation (if, while, foreach) or an array definition
-					while (!Tokens.get(backPos).getMytype().equals(Token.type.GroupStart)) {
+					int bracketLevel = 1;
+					while (bracketLevel>0) {
+						if (Tokens.get(backPos).getMytype().equals(Token.type.GroupStart)) {
+							bracketLevel--;
+							if (bracketLevel<1)
+								break;
+						}
+						if (Tokens.get(backPos).getMytype().equals(Token.type.GroupEnd))
+							bracketLevel++;
+						if (Tokens.get(backPos-1).getMytype().equals(Token.type.GroupEnd)) {
+							bracketLevel++;
+							backPos--;
+						}
 						backPos--;
 					}
-					if (Tokens.get(backPos-1).getMytype().equals(Token.type.Operator))
+					if (Tokens.get(backPos-1).getMytype().equals(Token.type.Operator) | Tokens.get(backPos-1).getMytype().equals(Token.type.Member))
 						this.setValue(";");
 					else
 						this.setValue("");
 				}
-				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.Variable)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Command)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Number)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Operator)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandArgument)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.String)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandParameter)))
+				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.Variable)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Command)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Number)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Operator)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandArgument)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.String)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandParameter)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Comment)))
 					this.setValue(";");
 			}
 			if (myPos+1<Tokens.size())
