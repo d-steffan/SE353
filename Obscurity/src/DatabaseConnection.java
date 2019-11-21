@@ -6,15 +6,14 @@ import java.sql.Statement;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
-
+/**Singleton Object to handle database operations using h2 and an In-Memory database
+ * 
+ * @author Dominik Steffan
+ * 
+ *
+ */
 public class DatabaseConnection {
 	
-	/**
-	 * @author Dominik Steffan
-	 * 
-	 * Singleton Object to handle database operations using h2 and an In-Memory database
-	 */
-
 	private static final String DB_DRIVER = "org.h2.Driver";
 	private static final String DB_CONNECTION = "jdbc:h2:mem:credentials;DB_CLOSE_DELAY=-1";
 	private static final String DB_USER = "";
@@ -22,18 +21,18 @@ public class DatabaseConnection {
 	private Connection connection;
 	
 	private static DatabaseConnection Singleton = new DatabaseConnection();
-	
+	/** Singleton Database Connection Object
+	 * 
+	 * SQL Statements to create Database:
+	 * CREATE TABLE user ( username VARCHAR(50) NOT NULL, password VARCHAR(64) NOT NULL);
+	 * insert into USER values ('woeckl','2a859255d5713bed4a05f0d5e91824f751684388fcc765f13f52c492838f400c');
+	 * insert into user values ('weakadmin','b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342');
+	 * insert into user values ('user','5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5');
+	 * insert into user values ('admin','e36efef6b45862c70d02a258f8215b93a240f2965fa6d919be5e286bc553ce82');
+	 * 
+	 */
 	private DatabaseConnection () {
-		/** Singleton Database Connection Object
-		 * 
-		 * SQL Statements to create Database:
-		 * CREATE TABLE user ( username VARCHAR(50) NOT NULL, password VARCHAR(64) NOT NULL);
-		 * insert into USER values ('woeckl','2a859255d5713bed4a05f0d5e91824f751684388fcc765f13f52c492838f400c');
-		 * insert into user values ('weakadmin','b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342');
-		 * insert into user values ('user','5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5');
-		 * insert into user values ('admin','e36efef6b45862c70d02a258f8215b93a240f2965fa6d919be5e286bc553ce82');
-		 * 
-		 */
+		
 		connection = getDBConnection();
 		Statement statement = null;
 		try {
@@ -85,11 +84,11 @@ public class DatabaseConnection {
         }
         return dbConnection;
     }
-	
+	/**
+	 * @return Singleton Instance of and already established database connection
+	 */
 	public static DatabaseConnection GetInstance() {
-		/**
-		 * @return Singleton Instance of and already established database connection
-		 */
+		
 		return Singleton;
 	}
 	

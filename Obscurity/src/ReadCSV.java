@@ -1,7 +1,11 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/** Class with static methods to read a csv file and generate {@link Token} objects.
+ * 
+ * @author Dominik Steffan
+ *
+ */
 public class ReadCSV {
 
 	static String buffer = "";
@@ -13,7 +17,15 @@ public class ReadCSV {
 	static String line;
 	static char[] chars;
 	static int i;
-	
+	/**
+	 * Reads the CSV at given filename and returns an ArrayList of Tokens.<br>
+	 * When PowerShell exports a csv using Export-CSV, it will be formatted with values in double quotes, seperated by the chosen delimiter, which is ; by default.<br>
+	 * Since PowerShell comments can also contain quotes, they will be exported to csv as double quotes. Using the block comment operators <##>, comments can also span accross several lines. Due to this, the code to distinguish when a comment token ends is quite exhaustive.<br>
+	 * 
+	 * @param filename The path of the csv including tokenized output of the chosen script.
+	 * @return Returns an ArrayList\<Token\> of all read Tokens 
+	 * @throws Exception
+	 */
 	public static ArrayList<Token> GetTokens(String filename) throws Exception
 	{
 		Tokens  = new ArrayList<Token>();
@@ -84,7 +96,9 @@ public class ReadCSV {
         return Tokens;
 	}
 
-
+	/**
+	 * Internal method to reuse code when quotes end.
+	 */
 	private static void EndQuotes() {
 		//System.out.println("i: "+i+" char: "+chars[i]+" Column: "+columnCounter+" String: "+line+" Note://End of normal quotes, do something with buffer");
 		inQuotes = false;
