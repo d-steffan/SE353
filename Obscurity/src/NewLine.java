@@ -39,11 +39,14 @@ public class NewLine extends Token {
 					else
 						this.setValue("");
 				}
-				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.Variable)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Command)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Number)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Operator)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandArgument)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.String)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandParameter)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Comment)))
+				if ((Tokens.get(myPos-1).getMytype().equals(Token.type.Variable)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Command)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Number)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.Operator)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandArgument)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.String)) | (Tokens.get(myPos-1).getMytype().equals(Token.type.CommandParameter)))
 					this.setValue(";");
+				if  (Tokens.get(myPos-1).getMytype().equals(Token.type.Comment) & (options & 0b1)==0b0)
+					if (Tokens.get(myPos-1).getValue().substring(Tokens.get(myPos-1).getValue().length()-3).contentEquals("#>"))
+							this.setValue(";");
 			}
 			if (myPos+1<Tokens.size())
-				if (this.getValue()!=";" & ((Tokens.get(myPos+1).getMytype().equals(Token.type.NewLine)) | (Tokens.get(myPos+1).getMytype().equals(Token.type.Comment))))
+				if (this.getValue()!=";" & !(Tokens.get(myPos-1).getMytype().equals(Token.type.Comment)) & ((Tokens.get(myPos+1).getMytype().equals(Token.type.NewLine)) | (Tokens.get(myPos+1).getMytype().equals(Token.type.Comment))))
 					this.setValue("");
 			// Remove NewLine bit is set -> substitute NewLine with Separator ; this.setValue("");
 		}
