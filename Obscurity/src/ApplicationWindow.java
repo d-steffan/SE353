@@ -8,6 +8,7 @@ import javax.swing.JFileChooser;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -32,7 +33,7 @@ public class ApplicationWindow implements ActionListener{
 	JFrame frame;
 	JButton btnNewButton,SaveFile,Obscure;
 	JLabel lblNewLabel,lblNewLabel2,lblUsername;
-	String OpenFileName = "C:\\temp\\Get-MultipleDomainEventLogs.ps1",SaveFileName = "C:\\temp\\newScript.ps1",username;
+	String OpenFileName = ".\\src\\HelloWorld.ps1",SaveFileName = "C:\\temp\\newScript.ps1",username;
 	JCheckBox RemoveComments,RemoveNewLine,ObfuscateMembers,ObfuscateStrings;
 	JPanel RandomizeVar;
 	JRadioButton RandVar0,RandVar1,RandVar8;
@@ -128,6 +129,7 @@ public class ApplicationWindow implements ActionListener{
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(btnNewButton)) {
 			JFileChooser jfc = new JFileChooser();
+			jfc.setCurrentDirectory(new File(".\\src"));
 			int result = jfc.showOpenDialog(btnNewButton);
 			if (result==JFileChooser.APPROVE_OPTION) {
 				OpenFileName = jfc.getSelectedFile().getAbsolutePath();

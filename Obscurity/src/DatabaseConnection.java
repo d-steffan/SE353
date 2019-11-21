@@ -100,24 +100,27 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * This method is intentionally vulnerable to SQL Injections<br>
+	 * You can either bypass authorization or inject SQL to e.g. insert a new user or drop tables<br>
+	 * <br>
+	 * e.g. try <br>
+	 * username: ' or true-- <br>
+	 * to bypass authorization<br><br>
+	 * username: '; insert into user values ('root','5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5')--<br>
+	 * to create a new user root with password 12345<br><br>
+	 * username: ';CALL CSVWRITE('C:\temp\test.csv', 'SELECT * FROM USER');--<br>
+	 * to output the table to csv<br>
+	 * <br>
+	 * CAUTION! Database is volatile and will be destroyed after every run of the program since  DB_CONNECTION = "jdbc:h2:mem..."<br>
+	 * 
+	 * @param username Username from login form
+	 * @param password Password from Password field which will be hashed using SHA-256 and won't be overwritten with 0 after use to circumvent memory analysis for passwords
+	 * @return rather the authentication was successful or not
+	 */
 	
 	public boolean checkLoginUnsafe(String username, char[] password) {
-		/**
-		 * This method is intentionally vulnerable to SQL Injections
-		 * You can either bypass authorization or inject SQL to e.g. insert a new user or drop tables
-		 * 
-		 * e.g. try 
-		 * username: ' or true-- 
-		 * to bypass authorization or
-		 * username: '; insert into user values ('root','5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5')--
-		 * to create a new user root with password 12345
-		 * 
-		 * CAUTION! Database is volatile and will be destroyed after every run of the program since  DB_CONNECTION = "jdbc:h2:mem..."
-		 * 
-		 * @param username Username from login form
-		 * @param password Password from Password field which will be hashed using SHA-256 and won't be overwritten with 0 after use to circumvent memory analysis for passwords
-		 */
+
 		try {
 			String passwordhash = HashFactory.hashString(password, "SHA-256");
 			Statement statement = null;
@@ -137,14 +140,15 @@ public class DatabaseConnection {
 		JOptionPane.showMessageDialog(null, "No match with User "+username+" and the given password.", "User or Password not correct", JOptionPane.WARNING_MESSAGE);
 		return false;
 	}
-	
+	/**
+	 * This method checks the user credentials and should not be vulnerable to SQL Injections.
+	 * 
+	 * @param username Username from login form
+	 * @param password Password from Password field which will be hashed using SHA-256 and will be overwritten with 0 after use to circumvent memory analysis for passwords
+	 * @return rather the authentication was successful or not
+	 */
 	public boolean checkLoginSafe(String username, char[] password) {
-		/**
-		 * This method should not be vulnerable to SQL Injections.
-		 * 
-		 * @param username Username from login form
-		 * @param password Password from Password field which will be hashed using SHA-256 and will be overwritten with 0 after use to circumvent memory analysis for passwords
-		 */
+
 		try {
 			String passwordhash = HashFactory.hashString(password, "SHA-256");
 			Arrays.fill(password, '\u0000');
