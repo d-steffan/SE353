@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -33,7 +35,7 @@ public class ApplicationWindow implements ActionListener{
 	JFrame frame;
 	JButton btnNewButton,SaveFile,Obscure;
 	JLabel lblNewLabel,lblNewLabel2,lblUsername;
-	String OpenFileName = ".\\src\\HelloWorld.ps1",SaveFileName = "C:\\temp\\newScript.ps1",username;
+	String OpenFileName,SaveFileName,username;
 	JCheckBox RemoveComments,RemoveNewLine,ObfuscateMembers,ObfuscateStrings;
 	JPanel RandomizeVar;
 	JRadioButton RandVar0,RandVar1,RandVar8;
@@ -43,6 +45,35 @@ public class ApplicationWindow implements ActionListener{
 	 */
 	public ApplicationWindow(String user) {
 		username = user;
+		// Extract sample HelloWorld.ps1
+		try {
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream("HelloWorld.ps1");
+			FileOutputStream output = new FileOutputStream("HelloWorld.ps1");
+			byte [] buffer = new byte[4096];
+			int bytesRead = is.read(buffer);
+			while (bytesRead != -1) {
+			    output.write(buffer, 0, bytesRead);
+			    bytesRead = is.read(buffer);
+			}
+			output.close();
+			is.close();
+			
+			is = this.getClass().getClassLoader().getResourceAsStream("Export-TokensToCSV.ps1");
+			output = new FileOutputStream("Export-TokensToCSV.ps1");
+			buffer = new byte[4096];
+			bytesRead = is.read(buffer);
+			while (bytesRead != -1) {
+			    output.write(buffer, 0, bytesRead);
+			    bytesRead = is.read(buffer);
+			}
+			output.close();
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// Set FileNames
+		OpenFileName = System.getProperty("user.dir")+"\\HelloWorld.ps1";
+		SaveFileName = System.getProperty("user.dir")+"\\HelloWorld-obfuscated.ps1";
 		initialize();
 	}
 
@@ -129,7 +160,7 @@ public class ApplicationWindow implements ActionListener{
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(btnNewButton)) {
 			JFileChooser jfc = new JFileChooser();
-			jfc.setCurrentDirectory(new File(".\\src"));
+			jfc.setCurrentDirectory(new File("."));
 			int result = jfc.showOpenDialog(btnNewButton);
 			if (result==JFileChooser.APPROVE_OPTION) {
 				OpenFileName = jfc.getSelectedFile().getAbsolutePath();
@@ -169,7 +200,7 @@ public class ApplicationWindow implements ActionListener{
 			
 			Process p;
 			try {
-				p = Runtime.getRuntime().exec("powershell .\\src\\Export-TokensToCSV.ps1 -Argumentlist \"-Path "+OpenFileName+" -Destination $env:TEMP\\Tokenized.csv\"");
+				p = Runtime.getRuntime().exec("powershell "+System.getProperty("user.dir")+"\\Export-TokensToCSV.ps1 -Argumentlist \"-Path "+OpenFileName+" -Destination $env:TEMP\\Tokenized.csv\"");
 			
 				p.waitFor();
 				String temppath = System.getenv("TEMP")+"\\Tokenized.csv";
